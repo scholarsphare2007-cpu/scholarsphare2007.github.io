@@ -20,10 +20,11 @@
             <a href="#portfolio" class="hover:text-blue-600">Sample Ads</a>
             <a href="#pricing" class="hover:text-blue-600">Rate List</a>
         </div>
-        <a href="https://wa.me/919460458664?text=Hi%20Maruty,%20mujhe%20apne%20brand%20ki%20marketing%20karwani%20hai" 
-           class="bg-blue-600 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition transform">
-           Order Now <i class="fab fa-whatsapp ml-1"></i>
-        </a>
+       <a href="https://wa.me/919460458664?text=Hi%20Maruty,%20mujhe%20apne%20brand%20ki%20marketing%20karwani%20hai" 
+   onclick="playWelcome(event)"
+   class="bg-blue-600 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition transform">
+   Order Now <i class="fab fa-whatsapp ml-1"></i>
+</a>
     </nav>
 
     <section class="py-20 px-6 text-center max-w-4xl mx-auto">
@@ -31,7 +32,7 @@
         <h1 class="text-5xl md:text-7xl font-black mt-6 mb-6 leading-tight">Professional Ads, <br><span class="gradient-text text-6xl">Chai Ke Daam Mein!</span></h1>
         <p class="text-xl text-gray-600 mb-10">Graphic Designers ki moti fees bhool jao. Hum banate hain high-converting ads sirf ₹49 se.</p>
         <div class="flex flex-col md:flex-row justify-center gap-4">
-            <a href="#portfolio" class="bg-gray-900 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 shadow-2xl">Hamara Kaam Dekho</a>
+            <a href="#portfolio" onclick="playWelcome(event)" class="bg-gray-900 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 shadow-2xl">Hamara Kaam Dekho</a>
             <a href="#pricing" class="bg-white border-2 border-gray-200 px-10 py-4 rounded-xl font-bold text-lg hover:border-blue-500 transition">Rate List</a>
         </div>
     </section>
@@ -107,10 +108,11 @@
                     <li><i class="fas fa-check-circle text-yellow-300"></i> Free Ad Copy/Caption</li>
                     <li><i class="fas fa-check-circle text-yellow-300"></i> 24-Hour Delivery</li>
                 </ul>
-                <a href="https://wa.me/919460458664?text=Hi%20Maruty,%20mujhe%20Bestseller%20Pack%20(₹499)%20order%20karna%20hai" 
-                   class="block w-full py-3 rounded-xl bg-white text-blue-600 font-bold shadow-lg">
-                   Lelo Jaldi
-                </a>
+               <a href="https://wa.me/919460458664?text=Hi%20Maruty,%20mujhe%20Bestseller%20Pack%20(₹499)%20order%20karna%20hai" 
+   onclick="playWelcome(event)"
+   class="block w-full py-3 rounded-xl bg-white text-blue-600 font-bold shadow-lg">
+   Lelo Jaldi
+</a>
             </div>
 
             <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 hover:scale-105 transition">
@@ -131,10 +133,26 @@
     <footer class="py-10 text-center text-gray-400">
         Built with ❤️ by Maruty | Make Your Brand Big
     </footer>
+<script>
+  function playWelcome(event) {
+    event.preventDefault(); // WhatsApp ko turant khulne se rokega
+    
+    const msg = new SpeechSynthesisUtterance("Welcome to BrandBoost, Your own marketing partner brandboost is here for you");
+    msg.rate = 0.9; 
+    window.speechSynthesis.speak(msg);
+
+    // 4.5 seconds baad WhatsApp wala link khulega
+    const targetUrl = event.currentTarget.href;
+    setTimeout(() => {
+      window.location.href = targetUrl;
+    }, 4500);
+  }
+</script>
 
 </body>
 
 </html>
+
 
 
 
