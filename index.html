@@ -116,18 +116,25 @@
             </div>
         </div>
     </section>
-    <section id="login" class="py-20 bg-white text-center">
+<section id="login" class="py-20 bg-white text-center">
     <div class="max-w-md mx-auto p-8 glass-card border rounded-3xl shadow-2xl">
         <h2 class="text-3xl font-black mb-4 gradient-text">Permanent Partner Banein</h2>
-        <p class="text-gray-600 mb-6">Apne mobile number se login karein aur lifetime discounts paayein.</p>
         
-        <form class="space-y-4">
-            <input type="text" placeholder="Aapka Naam" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none">
-            <input type="number" placeholder="Mobile Number" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none">
-            <button type="button" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition">Sign Up Now</button>
-        </form>
+        <div id="recaptcha-container" class="flex justify-center mb-4"></div>
+
+        <div id="phone-input-area">
+            <p class="text-gray-500 mb-6 text-sm">Apne mobile number (+91) se login karein.</p>
+            <input type="text" id="phone" placeholder="+91 94604XXXXX" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-blue-500 mb-4 text-center">
+            <button onclick="sendOTP()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition">Send OTP</button>
+        </div>
+
+        <div id="otp-input-area" style="display:none;" class="mt-4">
+            <p class="text-gray-500 mb-4 text-sm font-bold">Aapke number par OTP bheja gaya hai</p>
+            <input type="number" id="verificationCode" placeholder="Enter 6-Digit OTP" class="w-full px-4 py-3 rounded-xl border mb-4 text-center outline-none">
+            <button onclick="verifyOTP()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold shadow-lg hover:bg-green-700 transition">Verify & Join</button>
+        </div>
         
-        <p class="mt-4 text-sm text-gray-500 italic">"Ab har brand chamkega permanent partner ban kar"</p>
+        <p class="mt-6 text-xs text-gray-400 italic leading-relaxed">"Ab har brand chamkega permanent partner ban kar"</p>
     </div>
 </section>
     <section id="refer" class="py-16 bg-yellow-400 text-center border-y-4 border-yellow-500">
@@ -148,7 +155,22 @@
         Built with ❤️ by Maruty | Make Your Brand Big
     </footer>
 
+   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+
     <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBGho_iC0A5TMzClv7WYmMAUjc9XgjRmjw",
+        authDomain: "brandboost-168a7.firebaseapp.com",
+        projectId: "brandboost-168a7",
+        storageBucket: "brandboost-168a7.firebasestorage.app",
+        messagingSenderId: "647331335782",
+        appId: "1:647331335782:web:1dc63dbc0f34a1a4b427a7"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+
       function startWebsite() {
         const msg = new SpeechSynthesisUtterance("Welcome to BrandBoost, Your own marketing partner brandboost is here for you");
         msg.rate = 1.0; 
@@ -157,9 +179,31 @@
         overlay.style.opacity = '0';
         setTimeout(() => { overlay.style.display = 'none'; }, 500);
       }
+
+      function sendOTP() {
+        const phoneNumber = document.getElementById('phone').value;
+        const appVerifier = window.recaptchaVerifier;
+        firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+          .then((confirmationResult) => {
+            window.confirmationResult = confirmationResult;
+            document.getElementById('phone-input-area').style.display = 'none';
+            document.getElementById('otp-input-area').style.display = 'block';
+            alert("OTP bhej diya gaya hai!");
+          }).catch((error) => alert("Error: " + error.message));
+      }
+
+      function verifyOTP() {
+        const code = document.getElementById('verificationCode').value;
+        confirmationResult.confirm(code).then((result) => {
+          alert("Badhai ho! Aap BrandBoost ke Permanent Partner ban gaye hain.");
+          window.location.hash = "#pricing";
+        }).catch((error) => alert("Galat OTP! Fir se koshish karein."));
+      }
     </script>
+    
 </body>
 </html>
+
 
 
 
